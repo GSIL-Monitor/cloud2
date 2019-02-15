@@ -1,0 +1,23 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcDecorationMapper">
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcDecoration" >
+        <id column="decorationId" property="decorationId" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="minaId" property="minaId" jdbcType="INTEGER" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="TINYINT" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="dataJson" property="dataJson" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        decorationId, userId, minaId, deleteFlag, createTime,dataJson
+    </sql>
+
+    <!-- 通过minaId查询官网信息 -->
+    <select id="selectByMinaId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_decoration
+        where minaId=#{minaId} and deleteFlag=1
+    </select>
+</mapper>

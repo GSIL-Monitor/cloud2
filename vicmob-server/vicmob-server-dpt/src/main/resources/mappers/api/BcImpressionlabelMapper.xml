@@ -1,0 +1,21 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcImpressionlabelMapper">
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcImpressionlabel" >
+        <result column="impressionLabelId" property="impressionLabelId" jdbcType="INTEGER" />
+        <result column="customerId" property="customerId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        impressionLabelId,customerId
+    </sql>
+
+    <!--查询客户点赞信息-->
+    <select id="selectInfo" resultMap="BaseResultMap">
+        select * from bc_impressionlabel where impressionLabelId=#{impressionLabelId} and customerId=#{customerId}
+    </select>
+
+    <!--插入客户点赞信息-->
+    <insert id="insertInfo">
+        insert into bc_impressionlabel VALUES (#{impressionLabelId},#{customerId})
+    </insert>
+</mapper>

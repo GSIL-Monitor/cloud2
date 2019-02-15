@@ -1,0 +1,49 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.web.BcSysUserMapper">
+
+    <sql id="userInfo">
+        a.userId AS "userId",
+        a.loginName AS "loginName",
+        a.loginPassword AS "loginPassword",
+        a.contactName AS "contactName",
+        a.contactPhone AS "contactPhone",
+        a.companyName AS "companyName",
+        a.companyAddress AS "companyAddress",
+        a.loginDate AS "loginDate",
+        a.loginFlag AS "loginFlag",
+        a.jointime AS "joinTime",
+        a.starttime AS "startTime",
+        a.endtime AS "endTime",
+        a.deleteFlag AS "deleteFlag",
+        a.dealIsOpen AS "dealIsOpen",
+        a.newCustIsOpen AS "newCustIsOpen",
+        a.conCustIsOpen AS "conCustIsOpen",
+        a.folCustIsOpen AS "folCustIsOpen",
+        a.picCustIsOpen AS "picCustIsOpen",
+        a.activeIsOpen AS "activeIsOpen",
+        a.InterIsOpen AS "InterIsOpen",
+        a.subOrderIsOpen AS "subOrderIsOpen",
+        a.dealOrderIsOpen AS "dealOrderIsOpen",
+        a.refundOrderIsOpen AS "refundOrderIsOpen",
+        a.updateDate AS "updateDate",
+        a.isPayment AS "isPayment",
+        a.cardsNum AS "cardsNum",
+        a.sysVersion AS "sysVersion"
+    </sql>
+
+    <!--通过主键获取用户信息-->
+    <select id="findByUserId" parameterType="int" resultType="com.vicmob.entity.BcSysUser">
+        SELECT
+            <include refid="userInfo" />
+        FROM bc_sys_user a
+        WHERE a.userId = #{userId}
+    </select>
+
+    <!--通过用户名获取用户炫店小程序的appId-->
+    <select id="getAppIdByName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT a.appid
+        FROM vicmob_mina_authorization a
+        LEFT JOIN vicmob_sys_user b ON a.userid = b.id
+		WHERE b.login_name = #{userName}
+    </select>
+</mapper>

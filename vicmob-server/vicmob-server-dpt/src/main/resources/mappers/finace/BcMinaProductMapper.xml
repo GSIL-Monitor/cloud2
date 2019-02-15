@@ -1,0 +1,8 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.finance.BcMinaProductMapper">
+
+    <!-- 通过用户ID获取appId列表 -->
+    <select id="getAppIdList" parameterType="int" resultType="java.lang.String">
+        SELECT appId FROM bc_mina_product WHERE userId = #{userId} AND deleteFlag = 1
+    </select>
+</mapper>

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: vicmob-config
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://git.code.tencent.com/vicmob/xxb_testserver.git
+          username: vicmob
+          password: wxk888888
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8888/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

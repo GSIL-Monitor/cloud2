@@ -1,0 +1,123 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcEmployeeMapper">
+
+    <!-- 通过客户Id和minaId查询员工列表信息 -->
+    <select id="selectByCustomerId" resultType="com.vicmob.entity.BcEmployee">
+		select e.*,c.custIsShield,s.nickName,s.logoPic,c.isRead
+		from bc_customer_employee c
+		left join bc_employee e
+		on c.employeeId=e.employeeId
+		left join bc_bussinessinfo s
+		on e.userId=s.userId
+		left join bc_mina_authorization a
+		on e.userId=a.userId
+		where customerId=#{customerId} and <![CDATA[ c.employeeId <> -1 ]]> and a.minaId=#{minaId}
+		order by c.custIsShield desc,addTime desc
+	</select>
+
+	<select id="selectByEmpAndCus" resultType="com.vicmob.entity.BcEmployee" parameterType="java.lang.Integer" >
+    	select e.*,c.custIsLike,b.nickName,b.logoPic,b.bussinesAdddress,b.longitude,b.latitude
+    	from bc_employee e
+     	left join bc_customer_employee c
+     	on e.employeeId=c.employeeId
+     	left join bc_bussinessinfo b
+     	on e.userId = b.userId
+     	where e.employeeId = #{employeeId,jdbcType=INTEGER} and c.customerId=#{customerId}
+  	</select>
+
+	<select id="selectByPrimaryKey" resultType="com.vicmob.entity.BcEmployee" parameterType="java.lang.Integer" >
+		select * from bc_employee
+		where employeeId = #{employeeId,jdbcType=INTEGER}
+	</select>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcEmployee">
+		update bc_employee
+		<set>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="minaId != null">
+				minaId = #{minaId,jdbcType=INTEGER},
+			</if>
+			<if test="firDepartmentId != null">
+				firDepartmentId = #{firDepartmentId,jdbcType=INTEGER},
+			</if>
+			<if test="secDepartmentId != null">
+				secDepartmentId = #{secDepartmentId,jdbcType=INTEGER},
+			</if>
+			<if test="headPortrait != null">
+				headPortrait = #{headPortrait,jdbcType=VARCHAR},
+			</if>
+			<if test="empNumber != null">
+				empNumber = #{empNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="empName != null">
+				empName = #{empName,jdbcType=VARCHAR},
+			</if>
+			<if test="empPosition != null">
+				empPosition = #{empPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="empPhone != null">
+				empPhone = #{empPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="empTel != null">
+				empTel = #{empTel,jdbcType=VARCHAR},
+			</if>
+			<if test="empWeChat != null">
+				empWeChat = #{empWeChat,jdbcType=VARCHAR},
+			</if>
+			<if test="empMailbox != null">
+				empMailbox = #{empMailbox,jdbcType=VARCHAR},
+			</if>
+			<if test="empAI != null">
+				empAI = #{empAI,jdbcType=INTEGER},
+			</if>
+			<if test="empBoss != null">
+				empBoss = #{empBoss,jdbcType=INTEGER},
+			</if>
+			<if test="personalDesc != null">
+				personalDesc = #{personalDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="empWelmsg != null">
+				empWelmsg = #{empWelmsg,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteFlag != null">
+				deleteFlag = #{deleteFlag,jdbcType=INTEGER},
+			</if>
+			<if test="empPhotos != null">
+				empPhotos = #{empPhotos,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="empCode != null">
+				empCode = #{empCode,jdbcType=VARCHAR},
+			</if>
+			<if test="qrCode != null">
+				qrCode = #{qrCode,jdbcType=VARCHAR},
+			</if>
+			<if test="voiceUrl != null">
+				voiceUrl = #{voiceUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="wxVoice != null">
+				wxVoice = #{wxVoice,jdbcType=VARCHAR},
+			</if>
+			<if test="praise != null">
+				praise = #{praise,jdbcType=INTEGER},
+			</if>
+			<if test="views != null">
+				views = #{views,jdbcType=INTEGER},
+			</if>
+			<if test="videoPath != null">
+				videoPath = #{videoPath,jdbcType=VARCHAR},
+			</if>
+			<if test="videoImg != null">
+				videoImg = #{videoImg,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where employeeId = #{employeeId,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据员工Id获取小程序名称 -->
+	<select id="selectNameByEmpId" resultType="java.lang.String">
+    	select m.nickName from bc_employee e left join bc_mina_authorization m on e.userId=m.userId where e.employeeId=#{employeeId}
+    </select>
+
+</mapper>

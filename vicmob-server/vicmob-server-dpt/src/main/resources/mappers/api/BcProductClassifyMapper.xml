@@ -1,0 +1,126 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcProductClassifyMapper">
+
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcProductClassify" >
+        <id column="classifyId" property="classifyId" jdbcType="INTEGER" />
+        <result column="minaId" property="minaId" jdbcType="INTEGER" />
+        <result column="parentId" property="parentId" jdbcType="INTEGER" />
+        <result column="classifyName" property="classifyName" jdbcType="VARCHAR" />
+        <result column="classifyPic" property="classifyPic" jdbcType="VARCHAR" />
+        <result column="classifySort" property="classifySort" jdbcType="INTEGER" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        classifyId, minaId, parentId, classifyName, classifyPic, classifySort, deleteFlag
+    </sql>
+
+    <!--根据主键查询产品分类-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from bc_product_classify
+        where classifyId = #{classifyId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据主键删除产品分类-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bc_product_classify
+        where classifyId = #{classifyId,jdbcType=INTEGER}
+    </delete>
+
+    <!--插入产品分类信息-->
+    <insert id="insertSelective" parameterType="com.vicmob.entity.BcProductClassify" >
+        insert into bc_product_classify
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="classifyId != null" >
+                classifyId,
+            </if>
+            <if test="minaId != null" >
+                minaId,
+            </if>
+            <if test="parentId != null" >
+                parentId,
+            </if>
+            <if test="classifyName != null" >
+                classifyName,
+            </if>
+            <if test="classifyPic != null" >
+                classifyPic,
+            </if>
+            <if test="classifySort != null" >
+                classifySort,
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="classifyId != null" >
+                #{classifyId,jdbcType=INTEGER},
+            </if>
+            <if test="minaId != null" >
+                #{minaId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null" >
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="classifyName != null" >
+                #{classifyName,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyPic != null" >
+                #{classifyPic,jdbcType=VARCHAR},
+            </if>
+            <if test="classifySort != null" >
+                #{classifySort,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新产品分类-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcProductClassify" >
+        update bc_product_classify
+        <set >
+            <if test="minaId != null" >
+                minaId = #{minaId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null" >
+                parentId = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="classifyName != null" >
+                classifyName = #{classifyName,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyPic != null" >
+                classifyPic = #{classifyPic,jdbcType=VARCHAR},
+            </if>
+            <if test="classifySort != null" >
+                classifySort = #{classifySort,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag = #{deleteFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where classifyId = #{classifyId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 查询所有产品一级分类 -->
+    <select id="selectFirstClsaaifyByMinaId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_product_classify
+        where parentId=0 and deleteFlag=1 and minaId=#{minaId}
+        ORDER BY classifySort  asc,classifyId desc
+    </select>
+
+    <!-- 通过一级分类Id查询二级分类 -->
+    <select id="selectByClassifyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_product_classify
+        where parentId=#{classifyId} and deleteFlag=1
+        ORDER BY classifySort  asc,classifyId desc
+    </select>
+</mapper>

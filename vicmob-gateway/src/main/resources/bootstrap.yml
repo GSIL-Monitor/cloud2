@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    config:
+      name: config
+      profile: gateway
+      uri: http://127.0.0.1:8000/
+      label: master
+      discovery:
+        enabled: true
+        service-id: vicmob-config
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8888/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

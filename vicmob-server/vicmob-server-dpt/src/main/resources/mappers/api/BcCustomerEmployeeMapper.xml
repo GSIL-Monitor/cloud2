@@ -1,0 +1,375 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcCustomerEmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcCustomerEmployee">
+        <id column="relationshipId" property="relationshipId" jdbcType="INTEGER" />
+        <result column="customerId" property="customerId" jdbcType="INTEGER" />
+        <result column="employeeId" property="employeeId" jdbcType="INTEGER" />
+        <result column="custNickname" property="custNickname" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="INTEGER" />
+        <result column="custPhone" property="custPhone" jdbcType="VARCHAR" />
+        <result column="custEmail" property="custEmail" jdbcType="VARCHAR" />
+        <result column="custCompany" property="custCompany" jdbcType="VARCHAR" />
+        <result column="custPosition" property="custPosition" jdbcType="VARCHAR" />
+        <result column="custAddress" property="custAddress" jdbcType="VARCHAR" />
+        <result column="custRemarks" property="custRemarks" jdbcType="VARCHAR" />
+        <result column="isShield" property="isShield" jdbcType="INTEGER" />
+        <result column="custLabel" property="custLabel" jdbcType="VARCHAR" />
+        <result column="transactionTime" property="transactionTime" jdbcType="TIMESTAMP" />
+        <result column="custIsShield" property="custIsShield" jdbcType="INTEGER" />
+        <result column="custIsLike" property="custIsLike" jdbcType="INTEGER" />
+        <result column="cusIsSave" property="cusIsSave" jdbcType="INTEGER" />
+        <result column="addTime" property="addTime" jdbcType="TIMESTAMP" />
+        <result column="activityTime" property="activityTime" jdbcType="TIMESTAMP" />
+        <result column="isHandover" property="isHandover" jdbcType="INTEGER" />
+        <result column="transactionPer" property="transactionPer" jdbcType="DECIMAL" />
+        <result column="authorizationPhone" property="authorizationPhone" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		relationshipId, customerId, employeeId, custNickname, gender, custPhone, custEmail,
+		custCompany, custPosition, custAddress, custRemarks, isShield,
+		custLabel, transactionTime,
+		custIsShield,custIsLike,cusIsSave, addTime,activityTime,isHandover,transactionPer,isRead,authorizationPhone
+	</sql>
+
+    <!--根据主键id查询员工客户关系-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from bc_customer_employee
+        where relationshipId = #{relationshipId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据主键id删除员工客户关系-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from bc_customer_employee
+		where relationshipId = #{relationshipId,jdbcType=INTEGER}
+	</delete>
+
+    <!--插入员工客户关系-->
+    <insert id="insertSelective" parameterType="com.vicmob.entity.BcCustomerEmployee">
+        insert into bc_customer_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="relationshipId != null">
+                relationshipId,
+            </if>
+            <if test="customerId != null">
+                customerId,
+            </if>
+            <if test="employeeId != null">
+                employeeId,
+            </if>
+            <if test="custNickname != null">
+                custNickname,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="custPhone != null">
+                custPhone,
+            </if>
+            <if test="custEmail != null">
+                custEmail,
+            </if>
+            <if test="custCompany != null">
+                custCompany,
+            </if>
+            <if test="custPosition != null">
+                custPosition,
+            </if>
+            <if test="custAddress != null">
+                custAddress,
+            </if>
+            <if test="custRemarks != null">
+                custRemarks,
+            </if>
+            <if test="isShield != null">
+                isShield,
+            </if>
+            <if test="custLabel != null">
+                custLabel,
+            </if>
+            <if test="transactionTime != null">
+                transactionTime,
+            </if>
+            <if test="custIsShield != null">
+                custIsShield,
+            </if>
+            <if test="custIsLike != null">
+                custIsLike,
+            </if>
+            <if test="cusIsSave != null">
+                cusIsSave,
+            </if>
+            <if test="addTime != null">
+                addTime,
+            </if>
+            <if test="activityTime != null">
+                activityTime,
+            </if>
+            <if test="isHandover != null">
+                isHandover,
+            </if>
+            <if test="transactionPer != null">
+                transactionPer,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="relationshipId != null">
+                #{relationshipId,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="custNickname != null">
+                #{custNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="custPhone != null">
+                #{custPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="custEmail != null">
+                #{custEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="custCompany != null">
+                #{custCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="custPosition != null">
+                #{custPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="custAddress != null">
+                #{custAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="custRemarks != null">
+                #{custRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="isShield != null">
+                #{isShield,jdbcType=INTEGER},
+            </if>
+            <if test="custLabel != null">
+                #{custLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="transactionTime != null">
+                #{transactionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="custIsShield != null">
+                #{custIsShield,jdbcType=INTEGER},
+            </if>
+            <if test="custIsLike != null">
+                #{custIsLike,jdbcType=INTEGER},
+            </if>
+            <if test="cusIsSave != null">
+                #{cusIsSave,jdbcType=INTEGER},
+            </if>
+            <if test="addTime != null">
+                #{addTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityTime != null">
+                #{activityTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isHandover != null">
+                #{isHandover,jdbcType=INTEGER},
+            </if>
+            <if test="transactionPer != null">
+                #{transactionPer,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新员工客户关系-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcCustomerEmployee">
+        update bc_customer_employee
+        <set>
+            <if test="customerId != null">
+                customerId = #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                employeeId = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="custNickname != null">
+                custNickname = #{custNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="custPhone != null">
+                custPhone = #{custPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="custEmail != null">
+                custEmail = #{custEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="custCompany != null">
+                custCompany = #{custCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="custPosition != null">
+                custPosition = #{custPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="custAddress != null">
+                custAddress = #{custAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="custRemarks != null">
+                custRemarks = #{custRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="isShield != null">
+                isShield = #{isShield,jdbcType=INTEGER},
+            </if>
+            <if test="custLabel != null">
+                custLabel = #{custLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="transactionTime != null">
+                transactionTime = #{transactionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="custIsShield != null">
+                custIsShield = #{custIsShield,jdbcType=INTEGER},
+            </if>
+            <if test="custIsLike != null">
+                custIsLike = #{custIsLike,jdbcType=INTEGER},
+            </if>
+            <if test="cusIsSave != null">
+                cusIsSave = #{cusIsSave,jdbcType=INTEGER},
+            </if>
+            <if test="addTime != null">
+                addTime = #{addTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityTime != null">
+                activityTime = #{activityTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transactionPer != null">
+                transactionPer = #{transactionPer,jdbcType=DECIMAL},
+            </if>
+            <if test="isHandover != null">
+                isHandover = #{isHandover,jdbcType=INTEGER},
+            </if>
+            <if test="authorizationPhone != null">
+                authorizationPhone = #{authorizationPhone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where relationshipId = #{relationshipId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 更新客户对员工是否屏蔽 -->
+    <update id="updateCustIsShield">
+		update bc_customer_employee set custIsShield=#{custIsShield} where
+		customerId=#{customerId} and employeeId=#{employeeId}
+	</update>
+
+    <!-- 跟据员工Id和客户Id查关系信息 -->
+    <select id="selectByEmpIdAndCusId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_customer_employee
+        where employeeId=#{employeeId} and customerId=#{customerId}
+    </select>
+
+    <!-- 根据客户id和员工id获取客户信息 -->
+    <select id="selectByCustomerId" resultType="com.vicmob.entity.BcCustomerEmployee">
+		select
+		a.*,b.nickName,b.avatar
+		from bc_customer_employee a left join bc_customer b on a.customerId = b.customerId
+		where a.customerId = #{customerId,jdbcType=INTEGER} and a.employeeId = #{employeeId,jdbcType=INTEGER}
+	</select>
+
+    <!-- 根据员工id获取所有客户信息 -->
+    <select id="selectListByEmpId" resultType="com.vicmob.entity.BcCustomerEmployee">
+		select * from bc_customer_employee a
+		where a.employeeId = #{employeeId,jdbcType=INTEGER}
+	</select>
+
+    <!-- 根据员工id获取所有客户信息按活动时间或新增来分类 -->
+    <select id="selectBySearchType" resultType="com.vicmob.entity.BcCustomerEmployee">
+        SELECT a.* ,
+        (SELECT b.progressId
+        FROM bc_employee_followup b
+        WHERE b.customerId = a.customerId AND b.employeeId =#{employeeId,jdbcType=INTEGER}
+        ORDER BY b.followTime DESC
+        LIMIT 1) AS custFollowup,
+        d.avatar,d.nickName
+        FROM bc_customer_employee a
+        LEFT JOIN bc_customer d ON a.customerId = d.customerId
+        WHERE a.employeeId = #{employeeId,jdbcType=INTEGER}
+        <if test="searchType == 2">
+            AND DATE_FORMAT(NOW(),'%Y-%m-%d') = DATE_FORMAT(a.addTime,'%Y-%m-%d')
+        </if>
+        <if test="searchWord != null and searchWord != ''">
+            AND (a.custNickname LIKE
+            <if test="dbName == 'oracle'">'%'||#{searchWord}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{searchWord}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{searchWord},'%')</if>
+            OR 	d.nickName LIKE
+            <if test="dbName == 'oracle'">'%'||#{searchWord}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{searchWord}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{searchWord},'%')</if>
+            )
+        </if>
+        ORDER BY a.activityTime DESC
+    </select>
+
+    <!-- 根据选择的标签获取客户信息 -->
+    <select id="selectByCustLabel" resultType="com.vicmob.entity.BcCustomerEmployee">
+		SELECT a.*,(SELECT b.progressId
+		FROM bc_employee_followup b
+		WHERE b.customerId = a.customerId AND b.employeeId =#{1,jdbcType=INTEGER}
+		ORDER BY b.followTime DESC
+		LIMIT 1) AS custFollowup,d.avatar,d.nickName
+		FROM bc_customer_employee a
+		LEFT JOIN bc_customer d ON a.customerId = d.customerId
+		WHERE a.custLabel LIKE concat('%',#{0},'%') AND a.employeeId = #{1,jdbcType=INTEGER}
+	</select>
+
+
+    <!-- 获取客户列表boss端展示 -->
+    <select id="selectCustbyEmpFollow" resultType="com.vicmob.entity.BcCustomerEmployee">
+        SELECT a.*,b.avatar,b.nickName,TIMESTAMPDIFF(DAY, (
+        SELECT DATE_FORMAT(e.followTime,'%Y-%m-%d')
+        FROM bc_employee_followup e
+        WHERE e.employeeId = #{employeeId,jdbcType=INTEGER} AND e.customerId = a.customerId
+        ORDER BY e.followTime DESC LIMIT 1), DATE_FORMAT(now(),'%Y-%m-%d')) AS custFollowup
+        FROM bc_customer_employee a
+        LEFT JOIN bc_customer b ON a.customerId = b.customerId
+        WHERE a.employeeId = #{employeeId,jdbcType=INTEGER}
+        <if test="searchType != 2">
+            AND <![CDATA[ DATE_FORMAT(a.addTime,'%Y-%m-%d') < DATE_FORMAT(NOW(),'%Y-%m-%d') ]]>
+        </if>
+        <if test="searchType == 2">
+            AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),'%Y-%m-%d') = DATE_FORMAT(a.addTime,'%Y-%m-%d')
+        </if>
+        ORDER BY a.activityTime DESC
+    </select>
+
+    <!-- 获取所有员工客户关系 -->
+    <select id="getAllCustAndEmp" resultType="com.vicmob.entity.BcCustomerEmployee">
+		select * from bc_customer_employee a  where a.employeeId >0
+	</select>
+
+    <!-- 获取近7/15/30天的新增客户数 -->
+    <select id="getNewCust" resultType="com.vicmob.entity.BcCustomerEmployee">
+		SELECT a.addTime, COUNT(1) as newCust
+		FROM bc_customer_employee a
+		WHERE a.employeeId = #{employeeId,jdbcType=INTEGER}  AND DATE_FORMAT(a.addTime,'%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL #{timeType,jdbcType=INTEGER}  DAY)
+		GROUP BY DATE_FORMAT(a.addTime,'%Y-%m-%d') ASC;
+	</select>
+
+    <!--查看客户昵称或者备注姓名-->
+    <select id="selectCustNickname" resultType="java.lang.String">
+	    select if(TRIM(IFNULL(e.custNickname,'')) = '',c.nickName,TRIM(e.custNickname)) AS nickName
+	    from bc_customer_employee e inner join bc_customer c on c.customerId=e.customerId
+	    where e.customerId=#{customerId} and e.employeeId=#{employeeId}
+	</select>
+
+    <!--查询所有客户员工关系数量-->
+    <select  id="getcount" parameterType="Integer" resultType="int">
+	    select count(1) from bc_customer_employee b left join bc_employee e on b.employeeId=e.employeeId where e.userId=#{userId}
+	</select>
+
+    <!--update授权手机号-->
+    <update id="updateByEmpAndCust" parameterType="com.vicmob.entity.BcCustomerEmployee">
+	    UPDATE bc_customer_employee SET authorizationPhone = #{authorizationPhone,jdbcType=VARCHAR}
+	    WHERE customerId = #{customerId,jdbcType=INTEGER} AND employeeId = #{employeeId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

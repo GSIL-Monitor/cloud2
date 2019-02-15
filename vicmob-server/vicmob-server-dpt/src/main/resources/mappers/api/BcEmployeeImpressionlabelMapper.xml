@@ -1,0 +1,121 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcEmployeeImpressionlabelMapper">
+
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcEmployeeImpressionlabel" >
+        <id column="impressionLabelId" property="impressionLabelId" jdbcType="INTEGER" />
+        <result column="employeeId" property="employeeId" jdbcType="INTEGER" />
+        <result column="impressionLabel" property="impressionLabel" jdbcType="VARCHAR" />
+        <result column="pointsNum" property="pointsNum" jdbcType="INTEGER" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        impressionLabelId, employeeId, impressionLabel, pointsNum, deleteFlag
+    </sql>
+
+    <!--根据主键查询印象标签-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from bc_employee_impressionlabel
+        where impressionLabelId = #{impressionLabelId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据主键删除印象标签-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bc_employee_impressionlabel
+        where impressionLabelId = #{impressionLabelId,jdbcType=INTEGER}
+    </delete>
+
+    <!--插入印象标签-->
+    <insert id="insertSelective" parameterType="com.vicmob.entity.BcEmployeeImpressionlabel" >
+        insert into bc_employee_impressionlabel
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="impressionLabelId != null" >
+                impressionLabelId,
+            </if>
+            <if test="employeeId != null" >
+                employeeId,
+            </if>
+            <if test="impressionLabel != null" >
+                impressionLabel,
+            </if>
+            <if test="pointsNum != null" >
+                pointsNum,
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="impressionLabelId != null" >
+                #{impressionLabelId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null" >
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="impressionLabel != null" >
+                #{impressionLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="pointsNum != null" >
+                #{pointsNum,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新印象标签-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcEmployeeImpressionlabel" >
+        update bc_employee_impressionlabel
+        <set >
+            <if test="employeeId != null" >
+                employeeId = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="impressionLabel != null" >
+                impressionLabel = #{impressionLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="pointsNum != null" >
+                pointsNum = #{pointsNum,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag = #{deleteFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where impressionLabelId = #{impressionLabelId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据员工Id查询印象标签 -->
+    <select id="selectByEmployeeIdForMina" resultType="com.vicmob.entity.BcEmployeeImpressionlabel">
+		SELECT
+			a.*, (
+				SELECT
+					count(1)
+				FROM
+					bc_impressionlabel b
+				WHERE
+					b.impressionLabelId = a.impressionLabelId
+				AND customerId = #{customerId}
+			) AS chooseLike
+		FROM
+			bc_employee_impressionlabel a
+		WHERE
+			a.employeeId = #{employeeId}
+		AND deleteFlag = 1
+	</select>
+
+    <!-- 根据员工Id查询印象标签 -->
+    <select id="selectByEmployeeId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_employee_impressionlabel where employeeId=#{employeeId} and deleteFlag = 1
+    </select>
+
+    <!-- 根据员工Id查询印象标签根据点赞数排序前三个 -->
+    <select id="selectOrderByPointsNum" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_employee_impressionlabel where employeeId=#{employeeId} and deleteFlag = 1  ORDER BY pointsNum DESC LIMIT 3
+    </select>
+</mapper>

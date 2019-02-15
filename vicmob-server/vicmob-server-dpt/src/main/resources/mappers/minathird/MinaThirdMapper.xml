@@ -1,0 +1,47 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.minathird.MinaThirdMapper">
+
+    <!--通过appId查询小程序第三方平台信息-->
+    <select id="getByAppId" resultType="com.vicmob.entity.MinaThird">
+        SELECT
+          a.thirdId, a.appId, a.appSecret, a.encodingKey, a.token, a.ticket, a.accessToken, a.tonkenExpire
+        FROM bc_mina_third a
+        WHERE a.appId = #{appId}
+    </select>
+
+    <!--插入小程序第三方平台信息-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="thirdId" parameterType="com.vicmob.entity.MinaThird">
+        INSERT INTO bc_mina_third (
+            appId,
+            appSecret,
+            encodingKey,
+            token,
+            ticket,
+            ticketUpdate
+        )
+        VALUES (
+            #{appId},
+            #{appSecret},
+            #{encodingKey},
+            #{token},
+            #{ticket},
+            NOW()
+        )
+    </insert>
+
+    <!--更新ticket-->
+    <update id="updateTicket" parameterType="com.vicmob.entity.MinaThird">
+        UPDATE bc_mina_third SET
+            ticket = #{ticket},
+            ticketUpdate = NOW()
+        WHERE appId = #{appId}
+    </update>
+
+    <!--更新accessToken-->
+    <update id="updateToken" parameterType="com.vicmob.entity.MinaThird">
+        UPDATE bc_mina_third SET
+            accessToken = #{accessToken},
+            tonkenExpire = #{tonkenExpire}
+        WHERE appId = #{appId}
+    </update>
+</mapper>

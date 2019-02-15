@@ -1,0 +1,203 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcProductMapper">
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcProduct" >
+        <id column="productId" property="productId" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="productName" property="productName" jdbcType="VARCHAR" />
+        <result column="firClassifyId" property="firClassifyId" jdbcType="INTEGER" />
+        <result column="secClassifyId" property="secClassifyId" jdbcType="INTEGER" />
+        <result column="productCover" property="productCover" jdbcType="VARCHAR" />
+        <result column="productPics" property="productPics" jdbcType="VARCHAR" />
+        <result column="productPrice" property="productPrice" jdbcType="DECIMAL" />
+        <result column="productState" property="productState" jdbcType="INTEGER" />
+        <result column="productSort" property="productSort" jdbcType="INTEGER" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="INTEGER" />
+        <result column="productDetails" property="productDetails" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        productId, userId, productName, firClassifyId, secClassifyId, productCover, productPics,
+        productPrice, productState, productSort, deleteFlag,productDetails
+    </sql>
+
+    <!--根据主键查询产品信息-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from bc_product
+        where productId = #{productId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据主键删除产品信息-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bc_product where productId = #{productId,jdbcType=INTEGER}
+    </delete>
+
+    <!--插入产品信息-->
+    <insert id="insertSelective" parameterType="com.vicmob.entity.BcProduct" >
+        insert into bc_product
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                productId,
+            </if>
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="productName != null" >
+                productName,
+            </if>
+            <if test="firClassifyId != null" >
+                firClassifyId,
+            </if>
+            <if test="secClassifyId != null" >
+                secClassifyId,
+            </if>
+            <if test="productCover != null" >
+                productCover,
+            </if>
+            <if test="productPics != null" >
+                productPics,
+            </if>
+            <if test="productPrice != null" >
+                productPrice,
+            </if>
+            <if test="productState != null" >
+                productState,
+            </if>
+            <if test="productSort != null" >
+                productSort,
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag,
+            </if>
+            <if test="productDetails != null" >
+                productDetails,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null" >
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="firClassifyId != null" >
+                #{firClassifyId,jdbcType=INTEGER},
+            </if>
+            <if test="secClassifyId != null" >
+                #{secClassifyId,jdbcType=INTEGER},
+            </if>
+            <if test="productCover != null" >
+                #{productCover,jdbcType=VARCHAR},
+            </if>
+            <if test="productPics != null" >
+                #{productPics,jdbcType=VARCHAR},
+            </if>
+            <if test="productPrice != null" >
+                #{productPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="productState != null" >
+                #{productState,jdbcType=INTEGER},
+            </if>
+            <if test="productSort != null" >
+                #{productSort,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="productDetails != null" >
+                #{productDetails,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键更新产品信息-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcProduct" >
+        update bc_product
+        <set >
+            <if test="userId != null" >
+                userId = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null" >
+                productName = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="firClassifyId != null" >
+                firClassifyId = #{firClassifyId,jdbcType=INTEGER},
+            </if>
+            <if test="secClassifyId != null" >
+                secClassifyId = #{secClassifyId,jdbcType=INTEGER},
+            </if>
+            <if test="productCover != null" >
+                productCover = #{productCover,jdbcType=VARCHAR},
+            </if>
+            <if test="productPics != null" >
+                productPics = #{productPics,jdbcType=VARCHAR},
+            </if>
+            <if test="productPrice != null" >
+                productPrice = #{productPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="productState != null" >
+                productState = #{productState,jdbcType=INTEGER},
+            </if>
+            <if test="productSort != null" >
+                productSort = #{productSort,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag = #{deleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="productDetails != null" >
+                productDetails = #{productDetails,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where productId = #{productId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据员工Id查询员工所推荐的商品 -->
+    <select id="selectByEmployeeId" resultMap="BaseResultMap">
+	    select p.* from bc_product p
+	    left join bc_employee_product e
+	    on p.productId=e.productId
+	    where e.employeeId=#{employeeId} and  p.productState=1 and p.deleteFlag=1
+    </select>
+
+    <!-- 获取该员工公司所有商品 -->
+    <select id="selectAllByEmployeeId" resultMap="BaseResultMap">
+	    SELECT p.*,IF(ISNULL(b.relationshipId)>0,0,1) as isSelect
+	    FROM bc_product p
+	    LEFT JOIN bc_employee e ON p.userId=e.userId
+	    LEFT JOIN bc_employee_product b ON p.productId = b.productId and e.employeeId = b.employeeId
+	    WHERE e.employeeId=#{employeeId} AND p.deleteFlag = 1 AND p.productState = 1
+    </select>
+
+    <!-- 通过一级分类Id查询所有产品 -->
+    <select id="selectByFirClassifyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_product p
+        <where>
+            p.productState=1 and p.deleteFlag=1 and exists (select * from bc_mina_authorization m where m.userId=p.userId and m.minaId=#{minaId})
+            <if test="firClassifyId != null ">
+                and	p.firClassifyId = #{firClassifyId}
+            </if>
+        </where>
+        ORDER BY p.productSort asc,p.productId desc
+    </select>
+
+    <!-- 通过二级分类查询商品信息 -->
+    <select id="selectBySecClassifyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bc_product
+        <where>
+            secClassifyId=#{secClassifyId} and productState=1 and deleteFlag=1
+            <if test="productName != null ">
+                AND productName LIKE concat('%',#{productName},'%')
+            </if>
+        </where>
+        ORDER BY productSort asc,productId desc
+    </select>
+
+</mapper>

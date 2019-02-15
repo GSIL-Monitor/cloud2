@@ -1,0 +1,104 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.api.BcInformationMapper">
+    <resultMap id="BaseResultMap" type="com.vicmob.entity.BcInformation" >
+        <id column="infoId" property="infoId" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="infoTitle" property="infoTitle" jdbcType="VARCHAR" />
+        <result column="infoAddTime" property="infoAddTime" jdbcType="TIMESTAMP" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="TINYINT" />
+        <result column="infoDetails" property="infoDetails" jdbcType="LONGVARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        infoId, userId, infoTitle, infoAddTime, deleteFlag,infoDetails
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from bc_information
+        where infoId = #{infoId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bc_information
+        where infoId = #{infoId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.vicmob.entity.BcInformation" >
+        insert into bc_information
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="infoId != null" >
+                infoId,
+            </if>
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="infoTitle != null" >
+                infoTitle,
+            </if>
+            <if test="infoAddTime != null" >
+                infoAddTime,
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag,
+            </if>
+            <if test="infoDetails != null" >
+                infoDetails,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="infoId != null" >
+                #{infoId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="infoTitle != null" >
+                #{infoTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="infoAddTime != null" >
+                #{infoAddTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=TINYINT},
+            </if>
+            <if test="infoDetails != null" >
+                #{infoDetails,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.vicmob.entity.BcInformation" >
+        update bc_information
+        <set >
+            <if test="userId != null" >
+                userId = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="infoTitle != null" >
+                infoTitle = #{infoTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="infoAddTime != null" >
+                infoAddTime = #{infoAddTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null" >
+                deleteFlag = #{deleteFlag,jdbcType=TINYINT},
+            </if>
+            <if test="infoDetails != null" >
+                infoDetails = #{infoDetails,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where infoId = #{infoId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 通过minaId查询资讯信息 -->
+    <select id="selectByMinaId" resultMap="BaseResultMap">
+        select
+        i.*
+        from bc_information i
+        left join bc_mina_authorization a
+        on i.userId=a.userId
+        where a.minaId=#{minaId} and i.deleteFlag=1
+        ORDER BY i.infoAddTime desc
+    </select>
+
+</mapper>

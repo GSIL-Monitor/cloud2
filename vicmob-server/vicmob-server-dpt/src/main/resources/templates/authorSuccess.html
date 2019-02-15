@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>授权成功</title>
+</head>
+<body>
+<div th:if="${successFlag}">
+    <h2>授权成功！</h2>
+    <span th:text="${minaInfo.nickName}"></span>
+    <img th:src="@{${minaInfo.headImg}}" src="http://img.juimg.com/tuku/yulantu/140218/330598-14021R23A410.jpg">
+</div>
+<div th:if="${!successFlag}">
+    <h2>授权失败！</h2>
+    <span th:text="${msg}"></span>
+</div>
+</body>
+</html>

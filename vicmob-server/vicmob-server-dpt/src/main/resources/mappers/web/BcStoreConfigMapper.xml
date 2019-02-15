@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.web.BcStoreConfigMapper">
+
+    <sql id="storeConfig">
+		a.configId AS "configId",
+		a.userId AS "userId",
+		a.mallType AS "mallType",
+		a.navigationName AS "navigationName",
+		a.minaSelect AS "minaSelect",
+		a.minaType AS "minaType",
+		a.appId AS "appId",
+		a.websiteUrl AS "websiteUrl"
+	</sql>
+
+    <!--通过userId获取商城配置-->
+    <select id="findByUserId" parameterType="int" resultType="com.vicmob.entity.BcStoreConfig">
+        SELECT
+            <include refid="storeConfig"/>
+        FROM bc_storeconfig a
+        WHERE a.userId = #{userId}
+    </select>
+</mapper>

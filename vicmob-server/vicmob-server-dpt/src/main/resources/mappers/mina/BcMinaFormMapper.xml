@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.mina.BcMinaFormDao">
+    <!-- 通过客户ID获取formId -->
+    <select id="getByCustomerId" parameterType="Integer" resultType="com.vicmob.entity.BcMinaForm">
+		<![CDATA[
+			SELECT minaFormId, formId
+			FROM bc_mina_form
+			WHERE customerId = #{0}
+			AND endDate > NOW()
+			LIMIT 0,1
+		]]>
+	</select>
+
+    <!-- 保存formId -->
+    <insert id="insert" parameterType="com.vicmob.entity.BcMinaForm">
+		INSERT INTO bc_mina_form
+			(formId, customerId, endDate)
+		VALUES
+			(#{formId}, #{customerId}, DATE_ADD(NOW(),INTERVAL 7 DAY))
+	</insert>
+
+    <!-- 删除formId -->
+    <delete id="delete" parameterType="com.vicmob.entity.BcMinaForm">
+		DELETE FROM bc_mina_form WHERE minaFormId = #{minaFormId}
+	</delete>
+</mapper>

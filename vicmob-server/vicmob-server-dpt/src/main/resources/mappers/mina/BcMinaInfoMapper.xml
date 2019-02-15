@@ -1,0 +1,108 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vicmob.mapper.mina.BcMinaInfoMapper">
+
+    <sql id="minaInfo">
+        a.minaId AS "minaId",
+        a.userid AS "userId",
+        a.appId AS "appId",
+        a.nickName AS "nickName",
+        a.headImg AS "headImg",
+        a.userName AS "userName",
+        a.verifyType AS "verifyType",
+        a.serviceType AS "serviceType",
+        a.accessToken AS "accessToken",
+        a.accessTokenEndTime AS "accessTokenEndTime",
+        a.refreshToken AS "refreshToken",
+        a.appsecret AS "appsecret",
+        a.authorizerState AS "authorState",
+        a.qrCode AS "qrCode"
+    </sql>
+
+    <!--通过userId查询用户小程序信息-->
+    <select id="getByUserId" parameterType="int" resultType="com.vicmob.entity.BcMinaInfo">
+        SELECT
+            <include refid="minaInfo" />
+        FROM bc_mina_authorization a
+        WHERE a.userId = #{userId}
+    </select>
+
+    <!--通过appId查询已授权小程序数量-->
+    <select id="getAuthorNumByAppId" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM bc_mina_authorization
+        WHERE appId = #{appId}
+        AND authorizerState = 1
+    </select>
+
+    <!--通过小程序Id查询小程序信息-->
+    <select id="getByMinaId" parameterType="int" resultType="com.vicmob.entity.BcMinaInfo">
+        SELECT
+            <include refid="minaInfo" />
+        FROM bc_mina_authorization a
+        WHERE a.minaId = #{minaId}
+    </select>
+
+    <!--新增用户小程序信息-->
+    <insert id="insert" parameterType="com.vicmob.entity.BcMinaInfo" useGeneratedKeys="true" keyProperty="minaId">
+        INSERT INTO bc_mina_authorization (
+            userId,
+            appId,
+            nickName,
+            headImg,
+            userName,
+            verifyType,
+            serviceType,
+            accessToken,
+            accessTokenEndTime,
+            refreshToken,
+            qrCode
+        ) VALUES (
+            #{userId},
+            #{appId},
+            #{nickName},
+            #{headImg},
+            #{userName},
+            #{verifyType},
+            #{serviceType},
+            #{accessToken},
+            #{accessTokenEndTime},
+            #{refreshToken},
+            #{qrCode}
+        )
+    </insert>
+
+    <!--替换用户小程序信息-->
+    <update id="renew" parameterType="com.vicmob.entity.BcMinaInfo">
+        UPDATE bc_mina_authorization SET
+            appId = #{appId},
+            nickName = #{nickName},
+            headImg = #{headImg},
+            userName = #{userName},
+            verifyType = #{verifyType},
+            serviceType = #{serviceType},
+            accessToken = #{accessToken},
+            accessTokenEndTime = #{accessTokenEndTime},
+            refreshToken = #{refreshToken},
+            authorizerState = 1,
+            qrCode = #{qrCode}
+        WHERE userId = #{userId}
+    </update>
+
+    <!--更新授权小程序调用凭证-->
+    <update id="updateAccessToken" parameterType="com.vicmob.entity.BcMinaInfo">
+        UPDATE bc_mina_authorization SET
+            accessToken = #{accessToken},
+            accessTokenEndTime = #{accessTokenEndTime},
+            refreshToken = #{refreshToken}
+        WHERE minaId = #{minaId}
+    </update>
+
+    <!-- 通过minaId获取小程序信息 -->
+    <select id="get" resultType="com.vicmob.entity.BcMinaInfo">
+        SELECT
+        <include refid="minaInfo"/>
+        FROM bc_mina_authorization a
+        WHERE a.minaId = #{minaId}
+    </select>
+
+</mapper>
